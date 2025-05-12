@@ -1,0 +1,19 @@
+name: Run Postman Tests
+on:
+ push:
+   branches: [ main ]
+ pull_request:
+   branches: [ main ]
+jobs:
+ test:
+   runs-on: ubuntu-latest
+   steps:
+   - uses: actions/checkout@v3
+   - name: Install Node.js
+     uses: actions/setup-node@v3
+     with:
+       node-version: '16'
+   - name: Install Newman
+     run: npm install -g newman
+   - name: Run Postman Tests
+     run: newman run Week_12_Mock_Cat_API.json -e Week_12_Env.json
