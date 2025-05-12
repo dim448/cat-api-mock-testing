@@ -1,0 +1,662 @@
+{
+	"info": {
+		"_postman_id": "bffbd9de-b0c0-4094-b9ee-c8b38162ef64",
+		"name": "Week 11 - Mock Cat API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43082776"
+	},
+	"item": [
+		{
+			"name": "{{mock_api_url}}/images/search",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{mock_api_url}}/images/search",
+					"host": [
+						"{{mock_api_url}}"
+					],
+					"path": [
+						"images",
+						"search"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "{{mock_api_url}}/images/search",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{cat_api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mock_api_url}}/images/search?limit=3&breed_ids=abys",
+							"host": [
+								"{{mock_api_url}}"
+							],
+							"path": [
+								"images",
+								"search"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "3"
+								},
+								{
+									"key": "breed_ids",
+									"value": "abys"
+								}
+							]
+						}
+					},
+					"_postman_previewlanguage": "",
+					"header": [],
+					"cookie": [
+						{
+							"expires": "Invalid Date"
+						}
+					],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "Mock - Search Images",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Статус 200\", function () { pm.response.to.have.status(200); });\r",
+							"pm.test(\"Получено 3 изображения\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData).to.be.an(\"array\");\r",
+							"   pm.expect(jsonData.length).to.eql(3);\r",
+							"});\r",
+							"pm.test(\"Порода Abyssinian\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData[0].breeds[0].id).to.eql(\"abys\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{cat_api_key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{mock_api_url}}/images/search?limit=3&breed_ids=abys",
+					"host": [
+						"{{mock_api_url}}"
+					],
+					"path": [
+						"images",
+						"search"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "3"
+						},
+						{
+							"key": "breed_ids",
+							"value": "abys"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Mock - Search Images",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{cat_api_key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n { \"id\": 1, \"name\": \"hats\" },\r\n { \"id\": 2, \"name\": \"space\" },\r\n { \"id\": 4, \"name\": \"sunglasses\" }\r\n]\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mock_api_url}}/categories",
+							"host": [
+								"{{mock_api_url}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"_postman_previewlanguage": "",
+					"header": [],
+					"cookie": [
+						{
+							"expires": "Invalid Date"
+						}
+					],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "Mock - Get Categories",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Статус 200\", function () { pm.response.to.have.status(200); });\r",
+							"pm.test(\"Список категорий получен\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData).to.be.an(\"array\");\r",
+							"   pm.expect(jsonData.length).to.be.above(0);\r",
+							"});\r",
+							"pm.test(\"Категория hats присутствует\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   var hasHats = jsonData.some(category => category.name === \"hats\");\r",
+							"   pm.expect(hasHats).to.be.true;\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{cat_api_key}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{mock_api_url}}/categories",
+					"host": [
+						"{{mock_api_url}}"
+					],
+					"path": [
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mock - Get Categories - Invalid Key",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Статус 401\", function () { pm.response.to.have.status(401); });\r",
+							"pm.test(\"Сообщение об ошибке\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.message).to.include(\"Invalid API Key\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "invalid_key",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{mock_api_url}}/categories",
+					"host": [
+						"{{mock_api_url}}"
+					],
+					"path": [
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mock - Search Breeds",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Статус 200\", function () { pm.response.to.have.status(200); });\r",
+							"pm.test(\"Получен список пород\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData).to.be.an(\"array\");\r",
+							"   pm.expect(jsonData.length).to.be.above(0);\r",
+							"});\r",
+							"pm.test(\"Порода Abyssinian найдена\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData[0].id).to.eql(\"abys\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{mock_api_url}}/breeds/search?q=abys",
+					"host": [
+						"{{mock_api_url}}"
+					],
+					"path": [
+						"breeds",
+						"search"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "abys"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Mock - Search Breeds",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{cat_api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mock_api_url}}/breeds/search?q=nonexistent",
+							"host": [
+								"{{mock_api_url}}"
+							],
+							"path": [
+								"breeds",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "nonexistent"
+								}
+							]
+						}
+					},
+					"_postman_previewlanguage": "",
+					"header": [],
+					"cookie": [
+						{
+							"expires": "Invalid Date"
+						}
+					],
+					"body": ""
+				},
+				{
+					"name": "Mock - Search Breeds",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{cat_api_key}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n { \"id\": \"abys\", \"name\": \"Abyssinian\", \"origin\": \"Egypt\" }\r\n]\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mock_api_url}}/breeds/search?q=abys",
+							"host": [
+								"{{mock_api_url}}"
+							],
+							"path": [
+								"breeds",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "abys"
+								}
+							]
+						}
+					},
+					"_postman_previewlanguage": "",
+					"header": [],
+					"cookie": [
+						{
+							"expires": "Invalid Date"
+						}
+					],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "Mock - Search Breeds - Invalid Query",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Статус 200\", function () { pm.response.to.have.status(200); });\r",
+							"pm.test(\"Пустой массив\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData).to.be.an(\"array\");\r",
+							"   pm.expect(jsonData.length).to.eql(0);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{mock_api_url}}/breeds/search?q=nonexistent",
+					"host": [
+						"{{mock_api_url}}"
+					],
+					"path": [
+						"breeds",
+						"search"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "nonexistent"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mock - Search Images - Dynamic Limit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Получено правильное количество изображений\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   var limit = parseInt(pm.request.url.query.get(\"limit\"));\r",
+							"   pm.expect(jsonData.length).to.eql(limit);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус 429\", function () { pm.response.to.have.status(429); });\r",
+							"pm.test(\"Сообщение об ошибке\", function () {\r",
+							" var jsonData = pm.response.json();\r",
+							" pm.expect(jsonData.message).to.include(\"Rate limit exceeded\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{mock_api_url}}/images/search?limit=2&breed_ids=abys",
+					"host": [
+						"{{mock_api_url}}"
+					],
+					"path": [
+						"images",
+						"search"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "2"
+						},
+						{
+							"key": "breed_ids",
+							"value": "abys"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Mock - Search Images - Dynamic Limit",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n { \"id\": \"{{$guid}}\", \"url\": \"https://mock.thecatapi.com/images/{{$guid}}.jpg\", \"width\": 600, \"height\": 400, \"breeds\": [{ \"id\": \"abys\", \"name\": \"Abyssinian\" }] }\r\n]\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/images/search?limit={{$randomInt}}&breed_ids=abys",
+							"path": [
+								"images",
+								"search"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "{{$randomInt}}"
+								},
+								{
+									"key": "breed_ids",
+									"value": "abys"
+								}
+							]
+						}
+					},
+					"_postman_previewlanguage": "",
+					"header": [],
+					"cookie": [
+						{
+							"expires": "Invalid Date"
+						}
+					],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "Mock - Delete Favourite - Invalid ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Статус 404\", function () { pm.response.to.have.status(404); });\r",
+							"pm.test(\"Сообщение об ошибке\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.message).to.include(\"Favourite not found\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{mock_api_url}}/favourites/99999",
+					"host": [
+						"{{mock_api_url}}"
+					],
+					"path": [
+						"favourites",
+						"99999"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mock - Delete Favourite",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Статус 200\", function () { pm.response.to.have.status(200); });\r",
+							"pm.test(\"Сообщение об успехе\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.message).to.include(\"Favourite deleted\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{cat_api_key}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{mock_api_url}}/favourites/12345",
+					"host": [
+						"{{mock_api_url}}"
+					],
+					"path": [
+						"favourites",
+						"12345"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{mock_api_url}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"pm.collectionVariables.set(\"totalTests\", (pm.collectionVariables.get(\"totalTests\") || 0) + pm.testResults.length);\r",
+					"pm.collectionVariables.set(\"passedTests\", (pm.collectionVariables.get(\"passedTests\") || 0) + pm.testResults.filter(t => t.status === \"pass\").length);"
+				]
+			}
+		}
+	]
+}

@@ -1,0 +1,21 @@
+{
+	"id": "4b62c2d4-d7cb-45e0-afbe-5e6b434f31fa",
+	"name": "Week 11 Env",
+	"values": [
+		{
+			"key": "mock_api_url",
+			"value": "https://1ec003c8-6521-4313-a0a4-1d579b621e67.mock.pstmn.io",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "cat_api_key",
+			"value": "live_8dUkC5Y4CGHqvENHTAVyEPQzJSXWKUAlAJ9Lf3spsEhjf1V783YtLuM3p6CVEtQU",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-05-12T07:51:03.751Z",
+	"_postman_exported_using": "Postman/11.44.6"
+}
